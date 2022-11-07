@@ -1,14 +1,13 @@
 package init
 
 import (
-	"database/sql"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"time"
 )
 
-var DbCli *sql.DB
+var DbCli *gorm.DB
 
 func init() {
 	fmt.Printf("start DB Init ...\n")
@@ -20,5 +19,5 @@ func init() {
 	db.SetMaxOpenConns(5)
 	db.SetMaxIdleConns(2)
 	db.SetConnMaxIdleTime(time.Minute)
-	DbCli = db
+	DbCli = open
 }
