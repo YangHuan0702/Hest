@@ -1,4 +1,4 @@
-package model
+package entity
 
 type BaseDescribe struct {
 	Id       uint   `json:"id" gorm:"column:id"`

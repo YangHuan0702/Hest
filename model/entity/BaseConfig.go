@@ -1,4 +1,4 @@
-package model
+package entity
 
 type BaseConfig struct {
 	Id      string `json:"id" gorm:"column:id"`

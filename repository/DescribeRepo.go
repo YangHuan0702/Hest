@@ -1,16 +1,16 @@
 package repository
 
 import (
-	"Hest/model"
+	"Hest/model/entity"
 	"bytes"
 	"fmt"
 )
 import "Hest/init"
 
-type BaseDescribe model.BaseDescribe
-type LineDescribe model.LineDescribe
-type Param model.Param
-type LineOfParam model.LineOfParam
+type BaseDescribe entity.BaseDescribe
+type LineDescribe entity.LineDescribe
+type Param entity.Param
+type LineOfParam entity.LineOfParam
 
 type BaseDescribeRepo interface {
 	Insert() int
@@ -187,9 +187,9 @@ func (obj *LineOfParam) BatchInsert(bases []*LineOfParam) int {
 	}
 	for i, o := range bases {
 		if i == len(bases)-1 {
-			buffer.WriteString(fmt.Sprint("(%d,%s,%s),", o.Id, o.LineId, o.ParamId))
+			buffer.WriteString(fmt.Sprintf("(%d,%d,%d),", o.Id, o.LineId, o.ParamId))
 		} else {
-			buffer.WriteString(fmt.Sprint("(%d,%s,%s)", o.Id, o.LineId, o.ParamId))
+			buffer.WriteString(fmt.Sprintf("(%d,%d,%d)", o.Id, o.LineId, o.ParamId))
 		}
 	}
 	init.DbCli.Debug().Exec(buffer.String())
