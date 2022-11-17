@@ -4,38 +4,42 @@ import (
 	"Hest/model/entity"
 	"bytes"
 	"fmt"
+	"gorm.io/gorm"
 )
-import "Hest/init"
 
 type BaseDescribe entity.BaseDescribe
 type LineDescribe entity.LineDescribe
 type Param entity.Param
 type LineOfParam entity.LineOfParam
 
+type BaseDescribeRepoStr struct {
+	dao *gorm.DB
+}
+
 type BaseDescribeRepo interface {
-	Insert() int
-	Update() int
-	Del() int
-	BatchInsert(bases []*BaseDescribe) int
-	BatchDelete(ids []uint) int
+	InsertBase(base *BaseDescribe) int
+	UpdateBase(base *BaseDescribe) int
+	DelBase(base *BaseDescribe) int
+	BatchInsertBase(bases []*BaseDescribe) int
+	BatchDeleteBase(ids []uint) int
 }
 
-func (obj *BaseDescribe) Insert() int {
-	init.DbCli.Debug().Create(obj)
+func (repo *BaseDescribeRepoStr) InsertBase(base *BaseDescribe) int {
+	repo.dao.Debug().Create(base)
 	return 1
 }
 
-func (obj *BaseDescribe) Update() int {
-	init.DbCli.Debug().Save(obj)
+func (repo *BaseDescribeRepoStr) UpdateBase(base *BaseDescribe) int {
+	repo.dao.Debug().Save(base)
 	return 1
 }
 
-func (obj *BaseDescribe) Del() int {
-	init.DbCli.Debug().Delete(obj).Unscoped()
+func (repo *BaseDescribeRepoStr) DelBase(base *BaseDescribe) int {
+	repo.dao.Debug().Delete(base).Unscoped()
 	return 1
 }
 
-func (obj *BaseDescribe) BatchInsert(bases []*BaseDescribe) int {
+func (repo *BaseDescribeRepoStr) BatchInsertBase(bases []*BaseDescribe) int {
 	sql := "insert into base_describe (id,name,url,sver,location) values "
 	var buffer bytes.Buffer
 	if _, err := buffer.WriteString(sql); err != nil {
@@ -48,39 +52,39 @@ func (obj *BaseDescribe) BatchInsert(bases []*BaseDescribe) int {
 			buffer.WriteString(fmt.Sprintf("(%d,%s,%s,%s,%s)", e.Id, e.Name, e.Url, e.Sver, e.Location))
 		}
 	}
-	init.DbCli.Debug().Exec(buffer.String())
+	repo.dao.Debug().Exec(buffer.String())
 	return len(bases)
 }
 
-func (obj *BaseDescribe) BatchDelete(ids []uint) int {
-	init.DbCli.Debug().Delete(obj, ids)
+func (repo *BaseDescribeRepoStr) BatchDeleteBase(ids []uint) int {
+	repo.dao.Debug().Delete(BaseDescribe{}, ids)
 	return len(ids)
 }
 
 type LineDescribeRepo interface {
-	Insert() int
-	Update() int
-	Del() int
+	Insert(line *LineDescribe) int
+	Update(line *LineDescribe) int
+	Del(line *LineDescribe) int
 	BatchInsert(bases []*LineDescribe) int
 	BatchDelete(ids []uint) int
 }
 
-func (obj *LineDescribe) Insert() int {
-	init.DbCli.Debug().Create(obj)
+func (repo *BaseDescribeRepoStr) Insert(line *LineDescribe) int {
+	repo.dao.Debug().Create(line)
 	return 1
 }
 
-func (obj *LineDescribe) Update() int {
-	init.DbCli.Debug().Updates(obj)
+func (repo *BaseDescribeRepoStr) Update(line *LineDescribe) int {
+	repo.dao.Debug().Updates(line)
 	return 1
 }
 
-func (obj *LineDescribe) Del() int {
-	init.DbCli.Debug().Delete(obj)
+func (repo *BaseDescribeRepoStr) Del(line *LineDescribe) int {
+	repo.dao.Debug().Delete(line)
 	return 1
 }
 
-func (obj *LineDescribe) BatchInsert(lines []*LineDescribe) int {
+func (repo *BaseDescribeRepoStr) BatchInsert(lines []*LineDescribe) int {
 	sql := "INSERT INTO line_describe(id,consumes,operation_id,params_id,produces,summary,tags) values"
 	var buffer bytes.Buffer
 
@@ -94,39 +98,39 @@ func (obj *LineDescribe) BatchInsert(lines []*LineDescribe) int {
 			buffer.WriteString(fmt.Sprintf("(%d,%s,%s,%s,%s,%s,%s)", l.Id, l.Consumes, l.OperationId, l.ParamsId, l.Produces, l.Summary, l.Tags))
 		}
 	}
-	init.DbCli.Debug().Exec(buffer.String())
+	repo.dao.Debug().Exec(buffer.String())
 	return len(lines)
 }
 
-func (obj *LineDescribe) BatchDelete(ids []uint) int {
-	init.DbCli.Debug().Delete(obj, ids)
+func (repo *BaseDescribeRepoStr) BatchDelete(ids []uint) int {
+	repo.dao.Debug().Delete(LineDescribe{}, ids)
 	return len(ids)
 }
 
 type ParamRepo interface {
-	Insert() int
-	Update() int
-	Del() int
-	BatchInsert(bases []*Param) int
-	BatchDelete(ids []uint) int
+	InsertParam(param *Param) int
+	UpdateParam(param *Param) int
+	DelParam(param *Param) int
+	BatchInsertParam(bases []*Param) int
+	BatchDeleteParam(ids []uint) int
 }
 
-func (obj *Param) Insert() int {
-	init.DbCli.Debug().Create(obj)
+func (repo *BaseDescribeRepoStr) InsertParam(param *Param) int {
+	repo.dao.Debug().Create(param)
 	return 1
 }
 
-func (obj *Param) Update() int {
-	init.DbCli.Debug().Updates(obj)
+func (repo *BaseDescribeRepoStr) UpdateParam(param *Param) int {
+	repo.dao.Debug().Updates(param)
 	return 1
 }
 
-func (obj *Param) Del() int {
-	init.DbCli.Debug().Delete(obj)
+func (repo *BaseDescribeRepoStr) DelParam(param *Param) int {
+	repo.dao.Debug().Delete(param)
 	return 1
 }
 
-func (obj *Param) BatchInsert(bases []*Param) int {
+func (repo *BaseDescribeRepoStr) BatchInsertParam(bases []*Param) int {
 	if len(bases) == 0 {
 		return 0
 	}
@@ -141,42 +145,39 @@ func (obj *Param) BatchInsert(bases []*Param) int {
 		}
 		buffer.WriteString(fmt.Sprintf("(%d,%s,%s,%s,%s,%s,%s)", p.Id, p.Description, p.Format, p.In, p.Name, p.Required, p.Types))
 	}
-	init.DbCli.Debug().Exec(buffer.String())
+	repo.dao.Debug().Exec(buffer.String())
 	return len(bases)
 }
 
-func (obj *Param) BatchDelete(ids []uint) int {
-	init.DbCli.Debug().Delete(obj, ids)
+func (repo *BaseDescribeRepoStr) BatchDeleteParam(ids []uint) int {
+	repo.dao.Debug().Delete(Param{}, ids)
 	return len(ids)
 }
 
 type LineOfParamRepo interface {
-	Insert() int
-	Update() int
-	Del() int
-	BatchInsert(bases []*LineOfParam) int
-	BatchDelete(ids []uint) int
+	InsertLineOfParam(obj *LineOfParam) int
+	UpdateLineOfParam(obj *LineOfParam) int
+	DelLineOfParam(obj *LineOfParam) int
+	BatchInsertLineOfParam(bases []*LineOfParam) int
+	BatchDeleteLineOfParam(ids []uint) int
 }
 
-func (obj *LineOfParam) Insert() int {
-	init.DbCli.Debug().Create(obj)
+func (repo *BaseDescribeRepoStr) InsertLineOfParam(obj *LineOfParam) int {
+	repo.dao.Debug().Create(obj)
 	return 1
 }
 
-func (obj *LineOfParam) Update() int {
-	if obj.Id == 0 {
-		return 0
-	}
-	init.DbCli.Debug().Updates(obj)
+func (repo *BaseDescribeRepoStr) UpdateLineOfParam(obj *LineOfParam) int {
+	repo.dao.Debug().Updates(obj)
 	return 1
 }
 
-func (obj *LineOfParam) Del() int {
-	init.DbCli.Debug().Delete(obj)
+func (repo *BaseDescribeRepoStr) DelLineOfParam(obj *LineOfParam) int {
+	repo.dao.Debug().Delete(obj)
 	return 1
 }
 
-func (obj *LineOfParam) BatchInsert(bases []*LineOfParam) int {
+func (repo *BaseDescribeRepoStr) BatchInsertLineOfParam(bases []*LineOfParam) int {
 	if len(bases) == 0 {
 		return 0
 	}
@@ -192,11 +193,11 @@ func (obj *LineOfParam) BatchInsert(bases []*LineOfParam) int {
 			buffer.WriteString(fmt.Sprintf("(%d,%d,%d)", o.Id, o.LineId, o.ParamId))
 		}
 	}
-	init.DbCli.Debug().Exec(buffer.String())
+	repo.dao.Debug().Exec(buffer.String())
 	return len(bases)
 }
 
-func (obj *LineOfParam) BatchDelete(ids []uint) int {
-	init.DbCli.Debug().Delete(obj, ids)
+func (repo *BaseDescribeRepoStr) BatchDeleteLineOfParam(ids []uint) int {
+	repo.dao.Debug().Delete(LineOfParam{}, ids)
 	return len(ids)
 }
