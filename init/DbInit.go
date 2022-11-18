@@ -11,7 +11,7 @@ var DbCli *gorm.DB
 
 func init() {
 	fmt.Printf("start DB Init ...\n")
-	open, err := gorm.Open(mysql.Open("root:root@tcp(localhost:3306)/Hest?parseTime=true&loc=Asia%2FShanghai"))
+	open, err := gorm.Open(mysql.Open("root:123456@tcp(localhost:3306)/Hest?parseTime=true&loc=Asia%2FShanghai"))
 	if err != nil {
 		panic(err)
 	}
