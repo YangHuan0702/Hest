@@ -3,13 +3,12 @@ package dto
 import "Hest/model/entity"
 
 type BaseDescribeSyncDTO struct {
-	bases   []*entity.BaseDescribe
-	lines   []*entity.LineDescribe
-	params  []*entity.Param
-	replace []*entity.LineOfParam
+	Bases   []*entity.BaseDescribe
+	Lines   []*entity.LineDescribe
+	Params  []*entity.Param
+	Replace []*entity.LineOfParam
 }
 
 func parseByJsonString(json string) *BaseDescribeSyncDTO {
-
 	return nil
 }

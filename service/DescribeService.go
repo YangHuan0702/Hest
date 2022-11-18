@@ -20,9 +20,20 @@ type DescribeService interface {
 }
 
 func (ser *DescribeServiceStr) Save(dto *BaseDescribeSyncDTO) {
-
+	ser.dao.Dao.Begin()
+	ser.dao.BatchInsertBase(dto.Bases)
+	ser.dao.BatchInsertLine(dto.Lines)
+	ser.dao.BatchInsertParam(dto.Params)
+	ser.dao.BatchInsertLineOfParam(dto.Replace)
+	ser.dao.Dao.Commit()
 }
 
 func (ser *DescribeServiceStr) Sync(dto *BaseDescribeSyncDTO) {
-
+	ser.dao.Dao.Begin()
+	ser.dao.ClearBase()
+	ser.dao.ClearLine()
+	ser.dao.ClearLineOfParam()
+	ser.dao.ClearParam()
+	ser.dao.Dao.Commit()
+	ser.Save(dto)
 }
