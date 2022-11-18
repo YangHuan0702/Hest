@@ -1,10 +1,17 @@
 package main
 
 import (
-	"fmt"
+	_ "Hest/init"
+	_ "github.com/kataras/iris/middleware/logger"
+	"github.com/kataras/iris/v12"
 )
-import _ "Hest/init"
 
 func main() {
-	fmt.Println("Hello Hest")
+	application := iris.New()
+
+	application.Handle("GET", "/", func(context iris.Context) {
+		context.HTML("<h1>Hello Hest</h1>")
+	})
+
+	application.Run(iris.Addr(":8080"))
 }
