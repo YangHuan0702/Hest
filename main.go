@@ -10,7 +10,7 @@ func main() {
 	application := iris.New()
 
 	// 初始化Controller
-	hinit.Handlers(application)
+	hinit.Controllers(application)
 
 	application.Run(iris.Addr(":8080"))
 	iris.WithoutServerError(iris.ErrServerClosed)

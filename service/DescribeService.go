@@ -6,7 +6,7 @@ import (
 )
 
 type DescribeServiceStr struct {
-	dao *repository.BaseDescribeRepoStr
+	Dao *repository.BaseDescribeRepoStr
 }
 
 type BaseDescribeSyncDTO dto.BaseDescribeSyncDTO
@@ -20,20 +20,20 @@ type DescribeService interface {
 }
 
 func (ser *DescribeServiceStr) Save(dto *BaseDescribeSyncDTO) {
-	ser.dao.Dao.Begin()
-	ser.dao.BatchInsertBase(dto.Bases)
-	ser.dao.BatchInsertLine(dto.Lines)
-	ser.dao.BatchInsertParam(dto.Params)
-	ser.dao.BatchInsertLineOfParam(dto.Replace)
-	ser.dao.Dao.Commit()
+	ser.Dao.Dao.Begin()
+	ser.Dao.BatchInsertBase(dto.Bases)
+	ser.Dao.BatchInsertLine(dto.Lines)
+	ser.Dao.BatchInsertParam(dto.Params)
+	ser.Dao.BatchInsertLineOfParam(dto.Replace)
+	ser.Dao.Dao.Commit()
 }
 
 func (ser *DescribeServiceStr) Sync(dto *BaseDescribeSyncDTO) {
-	ser.dao.Dao.Begin()
-	ser.dao.ClearBase()
-	ser.dao.ClearLine()
-	ser.dao.ClearLineOfParam()
-	ser.dao.ClearParam()
-	ser.dao.Dao.Commit()
+	ser.Dao.Dao.Begin()
+	ser.Dao.ClearBase()
+	ser.Dao.ClearLine()
+	ser.Dao.ClearLineOfParam()
+	ser.Dao.ClearParam()
+	ser.Dao.Dao.Commit()
 	ser.Save(dto)
 }

@@ -9,8 +9,8 @@ import (
 )
 
 type DescribeControllerStr struct {
-	service *service.DescribeServiceStr
-	util    *util.OperatorUtil
+	Service *service.DescribeServiceStr
+	Util    *util.OperatorUtil
 }
 
 // GetBaseSync 同步
@@ -22,7 +22,7 @@ func (contr *DescribeControllerStr) GetBaseSync(context iris.Context) web.HestRe
 	length := len(*baseDescribe)
 	for i := 0; i < length; i++ {
 		base := (*baseDescribe)[i]
-		base.Id = contr.util.GetId()
+		base.Id = contr.Util.GetId()
 	}
 	//service.
 	return web.SUCCESS()
