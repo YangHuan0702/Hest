@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "Hest/init"
+	hinit "Hest/init"
 	_ "github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/v12"
 )
@@ -9,9 +9,10 @@ import (
 func main() {
 	application := iris.New()
 
-	application.Handle("GET", "/", func(context iris.Context) {
-		context.HTML("<h1>Hello Hest</h1>")
-	})
+	// 初始化Controller
+	hinit.Handlers(application)
 
 	application.Run(iris.Addr(":8080"))
+	iris.WithoutServerError(iris.ErrServerClosed)
+
 }

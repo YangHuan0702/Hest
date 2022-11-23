@@ -15,6 +15,13 @@ func init() {
 	RedisClient = rClient
 
 	initGlobalId()
+
+	initDependencies()
+
+}
+
+func initDependencies() {
+
 }
 
 func initGlobalId() {
