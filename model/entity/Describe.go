@@ -1,10 +1,10 @@
 package entity
 
 type BaseDescribe struct {
-	Id       uint   `json:"id" gorm:"column:id"`
+	Id       int    `json:"id" gorm:"column:id"`
 	Name     string `json:"name" gorm:"column:name"`
 	Url      string `json:"url" gorm:"column:url"`
-	Sver     string `json:"sver" gorm:"column:sver"`
+	Sver     string `json:"swaggerVersion" gorm:"column:sver"`
 	Location string `json:"location" gorm:"column:location"`
 }
 type LineDescribe struct {
