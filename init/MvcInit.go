@@ -5,8 +5,10 @@ import (
 	"Hest/repository"
 	"Hest/service"
 	"Hest/util"
+	"fmt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/context"
 	"github.com/kataras/iris/v12/mvc"
 	"gorm.io/gorm"
 )
@@ -18,9 +20,15 @@ var operatorUtil *util.OperatorUtil
 var describeService *service.DescribeServiceStr
 
 func Controllers(application *iris.Application) {
-	party := application.Party("/describe")
-	mvc.Configure(party, func(mvc *mvc.Application) {
-		mvc.Handle(controller.DescribeControllerStr{
+	application.Get("/", func(context *context.Context) {
+		err := context.View("index.html", nil)
+		if err != nil {
+			panic(fmt.Sprintf("index.html:%s", err.Error()))
+		}
+	})
+
+	mvc.Configure(application.Party("/describe"), func(mvc *mvc.Application) {
+		mvc.Handle(&controller.DescribeControllerStr{
 			Service: describeService,
 			Util:    operatorUtil,
 		})

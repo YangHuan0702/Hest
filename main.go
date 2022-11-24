@@ -9,10 +9,12 @@ import (
 func main() {
 	application := iris.New()
 
+	application.RegisterView(iris.HTML("./views", ".html"))
+	iris.WithoutServerError(iris.ErrServerClosed)
+
 	// 初始化Controller
 	hinit.Controllers(application)
 
 	application.Run(iris.Addr(":8080"))
-	iris.WithoutServerError(iris.ErrServerClosed)
 
 }

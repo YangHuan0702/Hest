@@ -13,11 +13,11 @@ type DescribeControllerStr struct {
 	Util    *util.OperatorUtil
 }
 
-// GetBaseSync 同步
-func (contr *DescribeControllerStr) GetBaseSync(context iris.Context) web.HestResp {
+// GetBaseSync 同步 /base/sync
+func (contr *DescribeControllerStr) GetBaseSync(context iris.Context) {
 	baseDescribe, err := rpc.ReadBaseDescribe()
 	if err != nil {
-		return web.ERROR(err.Error())
+		_ = context.JSON(web.ERROR(err.Error()))
 	}
 	length := len(*baseDescribe)
 	for i := 0; i < length; i++ {
@@ -25,5 +25,5 @@ func (contr *DescribeControllerStr) GetBaseSync(context iris.Context) web.HestRe
 		base.Id = contr.Util.GetId()
 	}
 	//service.
-	return web.SUCCESS()
+	_ = context.JSON(web.SUCCESS())
 }
