@@ -36,7 +36,7 @@ type Param struct {
 	Types       string `json:"types" gorm:"column:type"`
 }
 
-func (_ *Param) TabelName() string {
+func (_ *Param) TableName() string {
 	return "h_param"
 }
 
