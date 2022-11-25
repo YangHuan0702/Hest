@@ -3,10 +3,10 @@ package web
 import "Hest/model/enum"
 
 type HestResp struct {
-	code int
-	msg  string
-	data interface{}
-	obj  interface{}
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+	Obj  interface{} `json:"obj"`
 }
 
 func SUCCESS() HestResp {

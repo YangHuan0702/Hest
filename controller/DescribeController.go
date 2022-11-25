@@ -18,6 +18,7 @@ func (contr *DescribeControllerStr) GetBaseSync(context iris.Context) {
 	baseDescribe, err := rpc.ReadBaseDescribe()
 	if err != nil {
 		_ = context.JSON(web.ERROR(err.Error()))
+		return
 	}
 	length := len(*baseDescribe)
 	for i := 0; i < length; i++ {
