@@ -7,6 +7,11 @@ type BaseDescribe struct {
 	Sver     string `json:"swaggerVersion" gorm:"column:sver"`
 	Location string `json:"location" gorm:"column:location"`
 }
+
+func (_ *BaseDescribe) TableName() string {
+	return "h_base_describe"
+}
+
 type LineDescribe struct {
 	Id          uint   `json:"id" gorm:"column:id"`
 	Consumes    string `json:"consumes" gorm:"column:consumes"`
@@ -15,6 +20,10 @@ type LineDescribe struct {
 	Produces    string `json:"produces" gorm:"column:produces"`
 	Summary     string `json:"summary" gorm:"column:summary"`
 	Tags        string `json:"tags" gorm:"column:tags"`
+}
+
+func (_ *LineDescribe) TableName() string {
+	return "h_line_describe"
 }
 
 type Param struct {
@@ -27,8 +36,16 @@ type Param struct {
 	Types       string `json:"types" gorm:"column:type"`
 }
 
+func (_ *Param) TabelName() string {
+	return "h_param"
+}
+
 type LineOfParam struct {
 	Id      uint `json:"id" gorm:"column:id"`
 	LineId  uint `json:"line_id" gorm:"column:line_id"`
 	ParamId uint `json:"param_id" gorm:"column:param_id"`
+}
+
+func (_ *LineOfParam) TableName() string {
+	return "h_line_of_param"
 }

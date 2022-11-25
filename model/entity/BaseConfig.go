@@ -7,3 +7,7 @@ type BaseConfig struct {
 	IsCover  int    `json:"is_cover" gorm:"column:is_cover"`
 	Del      int    `json:"del" gorm:"column:del"`
 }
+
+func (_ *BaseConfig) TableName() string {
+	return "h_base_config"
+}
